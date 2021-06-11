@@ -1,9 +1,13 @@
 // @flow
 import * as ICONS from 'constants/icons';
 import React from 'react';
-import Button from 'component/button';
 import { useIsMobile } from 'effects/use-screensize';
-import WunderbarSuggestions from 'component/wunderbarSuggestions';
+
+const Button = React.lazy(() => import('component/button' /* webpackChunkName: "button" */));
+const Icon = React.lazy(() => import('component/common/icon' /* webpackChunkName: "common/icon" */));
+const WunderbarSuggestions = React.lazy(() =>
+  import('component/wunderbarSuggestions' /* webpackChunkName: "wunderbarSuggestions" */)
+);
 
 type Props = {
   doOpenMobileSearch: () => void,
@@ -14,8 +18,18 @@ export default function WunderBar(props: Props) {
   const isMobile = useIsMobile();
 
   return isMobile ? (
-    <Button icon={ICONS.SEARCH} className="wunderbar__mobile-search" onClick={() => doOpenMobileSearch()} />
+    <React.Suspense fallback={null}>
+      <Button icon={ICONS.SEARCH} className="wunderbar__mobile-search" onClick={() => doOpenMobileSearch()} />
+    </React.Suspense>
   ) : (
-    <WunderbarSuggestions />
+    <React.Suspense
+      fallback={
+        <div className="wunderbar__wrapper wunderbar wunderbar__input" aria-disabled>
+          <Icon icon={ICONS.SEARCH} aria-disabled />
+        </div>
+      }
+    >
+      <WunderbarSuggestions />
+    </React.Suspense>
   );
 }
