@@ -4,10 +4,8 @@ import React from 'react';
 import { useIsMobile } from 'effects/use-screensize';
 
 const Button = React.lazy(() => import('component/button' /* webpackChunkName: "button" */));
-const Icon = React.lazy(() => import('component/common/icon' /* webpackChunkName: "common/icon" */));
-const WunderbarSuggestions = React.lazy(() =>
-  import('component/wunderbarSuggestions' /* webpackChunkName: "wunderbarSuggestions" */)
-);
+const Icon = React.lazy(() => import('component/common/icon' /* webpackChunkName: "icon" */));
+const WunderbarSuggestions = React.lazy(() => import('component/wunderbarSuggestions' /* webpackChunkName: "secondary" */));
 
 type Props = {
   doOpenMobileSearch: () => void,

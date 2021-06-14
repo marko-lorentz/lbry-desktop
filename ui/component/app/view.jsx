@@ -30,27 +30,22 @@ import {
 // @endif
 import LANGUAGE_MIGRATIONS from 'constants/language-migrations';
 
-const FileDrop = React.lazy(() => import('component/fileDrop' /* webpackChunkName: "fileDrop" */));
-const ModalRouter = React.lazy(() => import('modal/modalRouter' /* webpackChunkName: "modalRouter" */));
-const Nag = React.lazy(() => import('component/common/nag' /* webpackChunkName: "common/nag" */));
+const FileDrop = React.lazy(() => import('component/fileDrop' /* webpackChunkName: "secondary" */));
+const ModalRouter = React.lazy(() => import('modal/modalRouter' /* webpackChunkName: "secondary" */));
+const Nag = React.lazy(() => import('component/common/nag' /* webpackChunkName: "secondary" */));
 const NagContinueFirstRun = React.lazy(() =>
-  import('component/nagContinueFirstRun' /* webpackChunkName: "nagContinueFirstRun" */)
+  import('component/nagContinueFirstRun' /* webpackChunkName: "secondary" */)
 );
-const OpenInAppLink = React.lazy(() => import('web/component/openInAppLink' /* webpackChunkName: "component/openInAppLink" */));
-const SyncFatalError = React.lazy(() => import('component/syncFatalError' /* webpackChunkName: "syncFatalError" */));
-const Yrbl = React.lazy(() => import('component/yrbl' /* webpackChunkName: "yrbl" */));
+const OpenInAppLink = React.lazy(() => import('web/component/openInAppLink' /* webpackChunkName: "secondary" */));
 
 // @if TARGET='web'
-const NagDataCollection = React.lazy(() =>
-  import('web/component/nag-data-collection' /* webpackChunkName: "component/nag-data-collection" */)
-);
-const NagDegradedPerformance = React.lazy(() =>
-  import('web/component/nag-degraded-performance' /* webpackChunkName: "component/nag-degraded-performance" */)
-);
-const YoutubeWelcome = React.lazy(() =>
-  import('web/component/youtubeReferralWelcome' /* webpackChunkName: "component/youtubeReferralWelcome" */)
-);
+const NagDataCollection = React.lazy(() => import('web/component/nag-data-collection' /* webpackChunkName: "secondary" */));
+const NagDegradedPerformance = React.lazy(() => import('web/component/nag-degraded-performance' /* webpackChunkName: "secondary" */));
+const YoutubeWelcome = React.lazy(() => import('web/component/youtubeReferralWelcome' /* webpackChunkName: "secondary" */));
 // @endif
+
+const SyncFatalError = React.lazy(() => import('component/syncFatalError' /* webpackChunkName: "syncFatalError" */));
+const Yrbl = React.lazy(() => import('component/yrbl' /* webpackChunkName: "yrbl" */));
 
 // ****************************************************************************
 
@@ -94,7 +89,6 @@ type Props = {
   isAuthenticated: boolean,
   socketConnect: () => void,
   syncLoop: (?boolean) => void,
-  syncEnabled: boolean,
   currentModal: any,
   syncFatalError: boolean,
   activeChannelClaim: ?ChannelClaim,
@@ -390,11 +384,11 @@ function App(props: Props) {
   if (syncFatalError) {
     return (
       <React.Suspense fallback={null}>
-      <SyncFatalError
-        // @if TARGET='web'
-        lbryTvApiStatus={lbryTvApiStatus}
-        // @endif
-      />
+        <SyncFatalError
+          // @if TARGET='web'
+          lbryTvApiStatus={lbryTvApiStatus}
+          // @endif
+        />
       </React.Suspense>
     );
   }
@@ -412,11 +406,11 @@ function App(props: Props) {
     >
       {IS_WEB && lbryTvApiStatus === STATUS_DOWN ? (
         <React.Suspense fallback={null}>
-        <Yrbl
-          className="main--empty"
-          title={__('lbry.tv is currently down')}
-          subtitle={__('My wheel broke, but the good news is that someone from LBRY is working on it.')}
-        />
+          <Yrbl
+            className="main--empty"
+            title={__('lbry.tv is currently down')}
+            subtitle={__('My wheel broke, but the good news is that someone from LBRY is working on it.')}
+          />
         </React.Suspense>
       ) : (
         <React.Fragment>
